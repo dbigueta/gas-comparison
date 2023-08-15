@@ -17,11 +17,17 @@
   }
 }
 
+/* Layout Styles */
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
+.wrapper {
+  @apply h-full max-w-full px-7 md:px-[6.25rem] xxl:px-0 xxl:max-w-wrapper-xxl xxl:mx-auto;
+}
+
+/* Typography Styles */
 .text-xl {
   @apply text-mobile-xl md:text-desktop-xl font-secondary;
 }
@@ -40,4 +46,9 @@ body {
 
 .text-xs {
   @apply text-mobile-xs md:text-desktop-xs;
+}
+
+/* Transition Styles */
+.scale-transition {
+  @apply transition-transform hover:scale-125;
 }

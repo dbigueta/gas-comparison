@@ -20,12 +20,12 @@ const config: Config = {
       none: APP_STYLES.BOX_SHADOW.NONE,
     },
     screens: {
-      xs: '20em', // 320px
-      sm: '30em', // 480px
-      md: '48em', // 768px
-      lg: '62em', // 992px
-      xl: '75em', // 1200px
-      xxl: '90em', // 1440px
+      xs: APP_STYLES.SCREENS.XS,
+      sm: APP_STYLES.SCREENS.SM,
+      md: APP_STYLES.SCREENS.MD,
+      lg: APP_STYLES.SCREENS.LG,
+      xl: APP_STYLES.SCREENS.XL,
+      xxl: APP_STYLES.SCREENS.XXL,
     },
     fontSize: {
       'desktop-xl': '4rem', // 64px
@@ -65,6 +65,15 @@ const config: Config = {
         success: {
           400: APP_STYLES.COLORS.SUCCESS[400],
         },
+      },
+      height: {
+        footer: APP_STYLES.HEIGHT.FOOTER,
+      },
+      minHeight: {
+        main: `calc(100vh - ${APP_STYLES.HEIGHT.FOOTER})`,
+      },
+      maxWidth: {
+        'wrapper-xxl': `calc(${APP_STYLES.SCREENS.XXL} - 12.5rem)`,
       },
     },
   },
