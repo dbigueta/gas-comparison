@@ -9,12 +9,12 @@ const APP_STYLES = {
     NONE: 'none',
   },
   SCREENS: {
-    xs: '20em', // 320px
-    sm: '30em', // 480px
-    md: '48em', // 768px
-    lg: '62em', // 992px
-    xl: '75em', // 1200px
-    xxl: '90em', // 1440px
+    XS: '20em', // 320px
+    SM: '30em', // 480px
+    MD: '48em', // 768px
+    LG: '62em', // 992px
+    XL: '75em', // 1200px
+    XXL: '90em', // 1440px
   },
   FONT_FAMILY: {
     PRIMARY: 'var(--font-primary)',
@@ -45,6 +45,9 @@ const APP_STYLES = {
     SUCCESS: {
       400: 'rgba(109,209,125,1)', // #6DD17D
     },
+  },
+  HEIGHT: {
+    FOOTER: '4rem', // 64px
   },
 };
 
