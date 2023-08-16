@@ -52,3 +52,16 @@ body {
 .scale-transition {
   @apply transition-transform hover:scale-125;
 }
+
+/* Library Overrides */
+.text-field-tooltip.tippy-box {
+  @apply rounded-xl bg-neutral-400;
+}
+
+.text-field-tooltip .tippy-content {
+  @apply p-4 text-neutral-100 text-mobile-xs;
+}
+
+.text-field-tooltip .tippy-arrow {
+  @apply text-neutral-400;
+}
