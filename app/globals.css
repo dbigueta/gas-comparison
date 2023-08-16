@@ -29,23 +29,23 @@ body {
 
 /* Typography Styles */
 .text-xl {
-  @apply text-mobile-xl md:text-desktop-xl font-secondary;
+  @apply transition-[font-size] text-mobile-xl md:text-desktop-xl font-secondary;
 }
 
 .text-lg {
-  @apply text-mobile-lg md:text-desktop-lg;
+  @apply transition-[font-size] text-mobile-lg md:text-desktop-lg;
 }
 
 .text-md {
-  @apply text-mobile-md md:text-desktop-md;
+  @apply transition-[font-size] text-mobile-md md:text-desktop-md;
 }
 
 .text-sm {
-  @apply text-mobile-sm md:text-desktop-sm;
+  @apply transition-[font-size] text-mobile-sm md:text-desktop-sm;
 }
 
 .text-xs {
-  @apply text-mobile-xs md:text-desktop-xs;
+  @apply transition-[font-size] text-mobile-xs md:text-desktop-xs;
 }
 
 /* Transition Styles */
