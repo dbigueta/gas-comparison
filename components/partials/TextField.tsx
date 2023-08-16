@@ -9,47 +9,33 @@ import useMediaQuery from '@/src/hooks/useMediaQuery';
 import { SCREEN_MD } from '@/src/constants';
 
 type TextFieldProps = {
-  type?: 'number' | 'text';
-  name: string;
+  id: string;
   label: string;
   placeholder?: string;
-  tooltip?: boolean;
   tooltipText?: string;
 };
 
-const TextField = ({
-  type = 'number',
-  name,
-  label,
-  placeholder = '',
-  tooltip = false,
-  tooltipText = '',
-}: TextFieldProps) => {
-  const [tooltipClicked, setTooltipClicked] = useState(false);
+const TextField = ({ id, label, placeholder = '', tooltipText = '' }: TextFieldProps) => {
   const isTablet = useMediaQuery(SCREEN_MD);
   return (
-    <div className="">
-      <label>
-        <div className="flex items-center gap-2 mb-2">
-          <p className="text-sm">{label}</p>
-          {tooltip && tooltipText !== '' && (
-            <Tippy
-              className="text-field-tooltip"
-              trigger={isTablet ? 'mouseenter focus' : 'click'}
-              content={tooltipText}>
-              <figure>
-                <Image src="/assets/Tooltip.svg" width="20" height="20" alt="Hover/Click on me for more information!" />
-              </figure>
-            </Tippy>
-          )}
-        </div>
-        <input
-          className="text-xs h-12 w-full rounded-xl text-neutral-400 transition-[padding,height] px-4 md:px-5 md:h-14"
-          placeholder={placeholder}
-          type="text"
-          name={name}
-        />
+    <div>
+      <label htmlFor={id} className="flex items-center gap-2 mb-2 w-fit">
+        <p className="text-sm">{label}</p>
+        {tooltipText !== '' && (
+          <Tippy className="text-field-tooltip" trigger={isTablet ? 'mouseenter focus' : 'click'} content={tooltipText}>
+            <figure>
+              <Image src="/assets/Tooltip.svg" width="20" height="20" alt="Hover/Click on me for more information!" />
+            </figure>
+          </Tippy>
+        )}
       </label>
+      <input
+        className="text-xs h-12 w-full rounded-xl text-neutral-400 !transition-[padding,height,box-shadow,font-size] !ease-linear focus:outline-none focus:shadow-[0_0_0_3px_#FFCB77] pl-4 pr-8 py-2 md:pl-5 md:pr-10 md:py-3 md:h-14"
+        placeholder={placeholder}
+        type="text"
+        name={id}
+        id={id}
+      />
     </div>
   );
 };
