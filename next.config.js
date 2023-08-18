@@ -1,10 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  images: {
-    loader: 'custom',
-    loaderFile: './my-loader.ts',
-  },
+  images: { unoptimized: true },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
