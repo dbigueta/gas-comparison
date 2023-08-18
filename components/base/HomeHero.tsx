@@ -1,42 +1,187 @@
+'use client';
+
+import { useState, useRef } from 'react';
 import TextField from '@/components/partials/TextField';
 
+import { INPUT_FIELD_IDS, LITRES_PER_GALLON, HUNDRED_KM, TWO_WAY_DISTANCE } from '@/src/constants';
+import Icon from '../partials/icon/Icon';
+
+type Values = {
+  distance: number;
+  litresPer100km: number;
+  cadPerLitre: number;
+  usdPerGallon: number;
+  usdCadExchangeRate: number;
+  litres: number;
+};
+
 const HomeHero = () => {
+  const [result, setResult] = useState(0);
+  const [showCalculations, setShowCalculations] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const totalSpent = (rate: number, litres: number) => {
+    return rate * litres;
+  };
+
+  const litresSpentDriving = (distance: number, litresPer100km: number) => {
+    // Multiply by 2 because distance is only towards gas station. Need to include gas coming back from gas station as well.
+    const totalDistance = distance * TWO_WAY_DISTANCE;
+    const litresSpent = (totalDistance * litresPer100km) / HUNDRED_KM;
+
+    return litresSpent;
+  };
+
+  const calculateComparison = ({
+    distance,
+    litresPer100km,
+    cadPerLitre,
+    usdPerGallon,
+    usdCadExchangeRate,
+    litres,
+  }: Values) => {
+    const usdPerLitre = usdPerGallon / LITRES_PER_GALLON;
+    const cadPerLitreAfterExchangeRate = usdPerLitre * usdCadExchangeRate;
+    const litresSpentTravelling = litresSpentDriving(distance, litresPer100km);
+    const totalSpentCanadaRate = totalSpent(cadPerLitre, litres);
+    const totalSpentUsRate = totalSpent(cadPerLitreAfterExchangeRate, litres + litresSpentTravelling);
+    const difference = totalSpentCanadaRate - totalSpentUsRate;
+
+    return difference;
+  };
+
+  const getValues = (values: Array<Element>) => {
+    const data = {
+      distance: 0,
+      litresPer100km: 0,
+      usdCadExchangeRate: 0,
+      litres: 0,
+      cadPerLitre: 0,
+      usdPerGallon: 0,
+    };
+
+    for (let value of values) {
+      const numberValue = parseFloat((value as HTMLInputElement).value);
+      switch (value.id) {
+        case INPUT_FIELD_IDS.DISTANCE:
+          data.distance = numberValue;
+          break;
+        case INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM:
+          data.litresPer100km = numberValue;
+          break;
+        case INPUT_FIELD_IDS.USD_TO_CAD_RATE:
+          data.usdCadExchangeRate = numberValue;
+          break;
+        case INPUT_FIELD_IDS.LITRES:
+          data.litres = numberValue;
+          break;
+        case INPUT_FIELD_IDS.CAD_LITRE_RATE:
+          data.cadPerLitre = numberValue;
+          break;
+        case INPUT_FIELD_IDS.USD_GALLON_RATE:
+          data.usdPerGallon = numberValue;
+          break;
+        default:
+          data;
+      }
+    }
+
+    return data;
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (formRef.current === null) {
+      return;
+    }
+
+    const formElementsArray = Array.from(formRef.current.elements);
+    const inputFields = formElementsArray.filter((element: Element) => {
+      return element.nodeName === 'INPUT';
+    });
+
+    const data = getValues(inputFields);
+
+    console.log(data);
+
+    setShowCalculations(true);
+    setResult(calculateComparison(data));
+  };
+  console.log(result);
   return (
-    <section className="py-12 md:py-24 transition-[padding]">
+    <section className="py-20 md:py-40 transition-[padding]">
       <div className="wrapper">
-        <h1 className="text-xl text-center font-bold mb-12">Gas Comparison</h1>
-        <div className="grid gap-6 mx-auto max-w-[51.5rem] md:grid-cols-2 md:gap-y-8">
-          <TextField
-            name="distance"
-            label="Distance (km) to US"
-            placeholder="50"
-            tooltip
-            tooltipText="One way distance from your starting location to the US gas station. This field will help calculate how much gas is spent driving to and from the gas station."
-          />
-          <TextField
-            name="l/100km"
-            label="Average L/100km"
-            placeholder="9.1"
-            tooltip
-            tooltipText="The amount of litres your vehicle uses to travel 100km. This should be on your dashboard of your car."
-          />
-          <TextField
-            name="usd_to_cad_rate"
-            label="USD to CAD Rate"
-            placeholder="1.34"
-            tooltip
-            tooltipText="You can also add your foreign exchange fees if you're using a Canadian credit card. Example, your foreign exchange rate is an extra 2% and the USD to CAD rate is 1.30, then you can put 1.32 as the rate."
-          />
-          <TextField
-            name="litres"
-            label="Total Litres"
-            placeholder="200"
-            tooltip
-            tooltipText="This should include the amount of litres filling up your vehicle AND the jerry cans. The more litres you fill in one trip, the more money you'll save."
-          />
-          <TextField name="cad_litre_price" label="CAD $/Litre" placeholder="1.93" />
-          <TextField name="usd_gallon_price" label="USD $/Gallon" placeholder="4.39" />
-        </div>
+        <h1 className="text-xl text-center font-bold mb-12 text-neutral-100">Gas Comparison</h1>
+        <form ref={formRef} onSubmit={handleSubmit} className="max-w-[31.25rem] mx-auto md:max-w-[51.5rem]">
+          <fieldset className="grid gap-6 mb-8 md:mb-12 md:grid-cols-2 md:gap-y-8">
+            <TextField
+              id={INPUT_FIELD_IDS.DISTANCE}
+              required
+              numbersOnly
+              title="Enter the distance travelled to the US gas station"
+              label="Distance (km) to US"
+              placeholder="50"
+              tooltipText="One way distance from your starting location to the US gas station. This field will help calculate how much gas is spent driving to and from the gas station."
+            />
+            <TextField
+              id={INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM}
+              required
+              numbersOnly
+              title="Enter your average L/100km"
+              label="Average L/100km"
+              placeholder="9.1"
+              tooltipText="The amount of litres your vehicle uses to travel 100km. This should be on your dashboard of your car."
+            />
+            <TextField
+              id={INPUT_FIELD_IDS.USD_TO_CAD_RATE}
+              required
+              numbersOnly
+              title="Enter the current USD to CAD exchange rate"
+              label="USD to CAD Rate"
+              placeholder="1.34"
+              tooltipText="You can also add your foreign exchange fees if you're using a Canadian credit card. Example, your foreign exchange rate is an extra 2% and the USD to CAD rate is 1.30, then you can put 1.32 as the rate."
+            />
+            <TextField
+              id={INPUT_FIELD_IDS.LITRES}
+              required
+              numbersOnly
+              title="Enter the total litres you're filling up (car tank + jerry cans)"
+              label="Litres"
+              placeholder="175"
+              tooltipText="This should include the amount of litres filling up your vehicle AND the jerry cans. The more litres you fill in one trip, the more money you'll save."
+            />
+            <TextField
+              id={INPUT_FIELD_IDS.CAD_LITRE_RATE}
+              required
+              numbersOnly
+              title="Enter the CAD $/Litre rate"
+              label="CAD $/Litre"
+              placeholder="1.93"
+            />
+            <TextField
+              id={INPUT_FIELD_IDS.USD_GALLON_RATE}
+              required
+              numbersOnly
+              title="Enter the USD $/Gallon"
+              label="USD $/Gallon"
+              placeholder="4.39"
+            />
+          </fieldset>
+          <button
+            type="submit"
+            className="text-neutral-100 button font-bold bg-unique-teal w-full block md:mx-auto md:max-w-[14.375rem]">
+            Calculate
+          </button>
+        </form>
+        {showCalculations && (
+          <div className="flex flex-wrap gap-x-2 md:gap-x-4 gap-y-0 justify-center items-center mt-12">
+            <p className="text-sm text-secondary-400">Money {result < 0 ? 'Lost' : 'Saved'}:</p>
+            <div className="flex items-center justify-center gap-2">
+              <p className={`text-lg ${result < 0 ? 'text-error-400' : 'text-success-400'}`}>${result} CAD</p>
+              <Icon className={result < 0 ? 'text-error-400 rotate-180' : 'text-success-400'} name="arrow" />
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
