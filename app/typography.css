@@ -1,0 +1,20 @@
+/* Typography Styles */
+.text-xl {
+  @apply transition-[font-size] text-mobile-xl md:text-desktop-xl font-secondary;
+}
+
+.text-lg {
+  @apply transition-[font-size] text-mobile-lg md:text-desktop-lg;
+}
+
+.text-md {
+  @apply transition-[font-size] text-mobile-md md:text-desktop-md;
+}
+
+.text-sm {
+  @apply transition-[font-size] text-mobile-sm md:text-desktop-sm;
+}
+
+.text-xs {
+  @apply transition-[font-size] text-mobile-xs md:text-desktop-xs;
+}
