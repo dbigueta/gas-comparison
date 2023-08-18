@@ -2,7 +2,7 @@
 const nextConfig = {
   output: 'export',
   images: {
-    path: '/',
+    path: '',
   },
   webpack(config) {
     config.module.rules.push({
