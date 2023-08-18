@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${roboto.variable} ${montserrat.variable} font-primary bg-primary-400 bg-none`}>
         <main className="overflow-hidden min-h-main">{children}</main>
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
