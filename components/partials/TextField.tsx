@@ -14,7 +14,7 @@ type Props = {
   label: string;
   placeholder?: string;
   tooltipText?: string;
-  numbersOnly?: boolean;
+  pattern?: string;
   title: string;
 };
 
@@ -24,7 +24,7 @@ const TextField: React.FC<Props> = ({
   label,
   placeholder = '',
   tooltipText = '',
-  numbersOnly = false,
+  pattern = '',
   title,
 }) => {
   const isTablet = useMediaQuery(SCREENS.MD);
@@ -34,7 +34,7 @@ const TextField: React.FC<Props> = ({
         <p className="text-sm text-neutral-100">{label}</p>
         {tooltipText !== '' && (
           <Tippy className="text-field-tooltip" trigger={isTablet ? 'mouseenter focus' : 'click'} content={tooltipText}>
-            <div>
+            <div className="hover:cursor-help">
               <Icon name="tooltip" />
             </div>
           </Tippy>
@@ -46,9 +46,9 @@ const TextField: React.FC<Props> = ({
         type="text"
         name={id}
         title={title}
-        pattern={numbersOnly ? '[0-9]' : ''}
         id={id}
         required={required}
+        pattern={pattern}
       />
     </div>
   );
