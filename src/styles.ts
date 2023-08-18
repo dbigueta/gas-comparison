@@ -47,7 +47,7 @@ const APP_STYLES = {
     },
     UNIQUE: {
       TEAL: 'rgba(23,195,178,1)', // #17C3B2
-    }
+    },
   },
   HEIGHT: {
     FOOTER: '4rem', // 64px
