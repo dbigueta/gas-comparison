@@ -1,5 +1,7 @@
 import Footer from '@/components/globals/Footer';
+import './buttons.css';
 import './globals.css';
+import './typography.css';
 import type { Metadata } from 'next';
 import { Montserrat, Roboto } from 'next/font/google';
 

@@ -65,6 +65,9 @@ const config: Config = {
         success: {
           400: APP_STYLES.COLORS.SUCCESS[400],
         },
+        unique: {
+          teal: APP_STYLES.COLORS.UNIQUE.TEAL,
+        }
       },
       height: {
         footer: APP_STYLES.HEIGHT.FOOTER,
