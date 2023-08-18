@@ -9,14 +9,14 @@ const Footer = () => {
             <li>
               <a href="https://www.linkedin.com/in/dexter-bigueta" target="_blank">
                 <figure className="scale-transition">
-                  <Image src="/assets/LinkedIn.svg" width="25" height="25" alt="Click here to view my LinkedIn!" />
+                  <Image src="/assets/linkedin.svg" width="25" height="25" alt="Click here to view my LinkedIn!" />
                 </figure>
               </a>
             </li>
             <li>
               <a href="https://github.com/dbigueta" target="_blank">
                 <figure className="scale-transition">
-                  <Image src="/assets/Github.svg" width="25" height="25" alt="Click here to view my GitHub!" />
+                  <Image src="/assets/github.svg" width="25" height="25" alt="Click here to view my GitHub!" />
                 </figure>
               </a>
             </li>
