@@ -1,31 +1,42 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
+import React from 'react';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
 import useMediaQuery from '@/src/hooks/useMediaQuery';
-import { SCREEN_MD } from '@/src/constants';
+import { SCREENS } from '@/src/constants';
+import Icon from './icon/Icon';
 
-type TextFieldProps = {
+type Props = {
   id: string;
+  required?: boolean;
   label: string;
   placeholder?: string;
   tooltipText?: string;
+  numbersOnly?: boolean;
+  title: string;
 };
 
-const TextField = ({ id, label, placeholder = '', tooltipText = '' }: TextFieldProps) => {
-  const isTablet = useMediaQuery(SCREEN_MD);
+const TextField: React.FC<Props> = ({
+  id,
+  required = false,
+  label,
+  placeholder = '',
+  tooltipText = '',
+  numbersOnly = false,
+  title,
+}) => {
+  const isTablet = useMediaQuery(SCREENS.MD);
   return (
     <div>
       <label htmlFor={id} className="flex items-center gap-2 mb-2 w-fit">
-        <p className="text-sm">{label}</p>
+        <p className="text-sm text-neutral-100">{label}</p>
         {tooltipText !== '' && (
           <Tippy className="text-field-tooltip" trigger={isTablet ? 'mouseenter focus' : 'click'} content={tooltipText}>
-            <figure>
-              <Image src="/assets/Tooltip.svg" width="20" height="20" alt="Hover/Click on me for more information!" />
-            </figure>
+            <div>
+              <Icon name="tooltip" />
+            </div>
           </Tippy>
         )}
       </label>
@@ -34,7 +45,10 @@ const TextField = ({ id, label, placeholder = '', tooltipText = '' }: TextFieldP
         placeholder={placeholder}
         type="text"
         name={id}
+        title={title}
+        pattern={numbersOnly ? '[0-9]' : ''}
         id={id}
+        required={required}
       />
     </div>
   );
