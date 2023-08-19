@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const repo = 'gas-comparison';
-const assetPrefix = `/${repo}/`;
-
 const nextConfig = {
   output: 'export',
   images: {
@@ -16,8 +13,6 @@ const nextConfig = {
 
     return config;
   },
-
-  assetPrefix: assetPrefix,
 };
 
 module.exports = nextConfig;
