@@ -18,8 +18,8 @@ const nextConfig = {
     return config;
   },
 
-  assetPrefix: assetPrefix,
-  basePath: basePath,
+  assetPrefix,
+  basePath,
 };
 
 module.exports = nextConfig;
