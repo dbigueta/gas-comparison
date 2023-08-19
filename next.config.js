@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
-const repo = 'gas-comparison';
-const assetPrefix = `/${repo}/`;
+const repo = 'https://dbigueta.github.io/gas-comparison';
+const assetPrefix = `/${repo}`;
 const basePath = `/${repo}`;
 
 const nextConfig = {
