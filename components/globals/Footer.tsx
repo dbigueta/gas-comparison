@@ -38,7 +38,7 @@ const Footer = () => {
                   <figure className="scale-transition">
                     <Image
                       className="text-neutral-100"
-                      src="/assets/github.svfg"
+                      src="/assets/github.svg"
                       width="25"
                       height="25"
                       alt="Click here to view my GitHub!"
