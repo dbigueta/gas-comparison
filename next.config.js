@@ -5,10 +5,8 @@ const basePath = `/${repo}`;
 
 const nextConfig = {
   output: 'export',
-  experimental: {
-    images: {
-      unoptimized: true,
-    },
+  images: {
+    unoptimized: true,
   },
   webpack(config) {
     config.module.rules.push({
