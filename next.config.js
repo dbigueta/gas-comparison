@@ -1,5 +1,15 @@
 /** @type {import('next').NextConfig} */
+const repo = 'gas-comparison';
+const assetPrefix = `/${repo}/`;
+const basePath = `/${repo}`;
+
 const nextConfig = {
+  output: 'export',
+  experimental: {
+    images: {
+      unoptimized: true,
+    },
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -9,6 +19,9 @@ const nextConfig = {
 
     return config;
   },
+
+  assetPrefix,
+  basePath,
 };
 
 module.exports = nextConfig;

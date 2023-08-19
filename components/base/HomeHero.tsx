@@ -94,6 +94,7 @@ const HomeHero = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
     if (formRef.current === null) {
       return;
     }
