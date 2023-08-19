@@ -1,14 +1,11 @@
 /** @type {import('next').NextConfig} */
 const repo = 'gas-comparison';
 const assetPrefix = `/${repo}/`;
-const basePath = `/${repo}`;
 
 const nextConfig = {
   output: 'export',
-  experimental: {
-    images: {
-      unoptimized: true,
-    },
+  images: {
+    unoptimized: true,
   },
   webpack(config) {
     config.module.rules.push({
@@ -20,8 +17,7 @@ const nextConfig = {
     return config;
   },
 
-  // assetPrefix: assetPrefix,
-  // basePath: basePath,
+  assetPrefix: assetPrefix,
 };
 
 module.exports = nextConfig;
