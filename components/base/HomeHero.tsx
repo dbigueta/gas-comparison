@@ -120,7 +120,7 @@ const HomeHero = () => {
               id={INPUT_FIELD_IDS.DISTANCE}
               required
               pattern="[0-9]{1,3}"
-              title="Should be a whole number that's at most 3 digits long"
+              title="Should be a whole number that's at most 3 digits long (numbers only)"
               label="Distance (km) to US"
               placeholder="50"
               tooltipText="One way distance from your starting location to the US gas station. This field will help calculate how much gas is spent driving to and from the gas station."
@@ -137,8 +137,8 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.USD_TO_CAD_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{2}"
-              title="Should be in the form of X.XX (numbers only)"
+              pattern="[0-9]{1}\.[0-9]{1,2}"
+              title="Should be in the form of X.X or X.XX (numbers only)"
               label="USD to CAD Rate"
               placeholder="1.34"
               tooltipText="You can also add your foreign exchange fees if you're using a Canadian credit card. Example, your foreign exchange rate is an extra 2% and the USD to CAD rate is 1.30, then you can put 1.32 as the rate."
@@ -147,7 +147,7 @@ const HomeHero = () => {
               id={INPUT_FIELD_IDS.LITRES}
               required
               pattern="[0-9]{2,3}"
-              title="Should be a whole number that's 2 or 3 digits long"
+              title="Should be a whole number that's 2 or 3 digits long (numbers only)"
               label="Litres"
               placeholder="175"
               tooltipText="This should include the amount of litres filling up your vehicle AND the jerry cans. The more litres you fill in one trip, the more money you'll save."
@@ -155,16 +155,16 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.CAD_LITRE_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{2}"
-              title="Should be in the form of X.XX (numbers only)"
+              pattern="[0-9]{1}\.[0-9]{1,2}"
+              title="Should be in the form of X.X or X.XX (numbers only)"
               label="CAD $/Litre"
               placeholder="1.93"
             />
             <TextField
               id={INPUT_FIELD_IDS.USD_GALLON_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{2}"
-              title="Should be in the form of X.XX (numbers only)"
+              pattern="[0-9]{1}\.[0-9]{1,2}"
+              title="Should be in the form of X.X or X.XX (numbers only)"
               label="USD $/Gallon"
               placeholder="4.39"
             />
