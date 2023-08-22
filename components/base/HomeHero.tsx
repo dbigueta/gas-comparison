@@ -120,15 +120,18 @@ const HomeHero = () => {
               id={INPUT_FIELD_IDS.DISTANCE}
               required
               pattern="[0-9]{1,3}"
+              maxLength={3}
               title="Should be a whole number that's at most 3 digits long (numbers only)"
               label="Distance (km) to US"
               placeholder="50"
               tooltipText="One way distance from your starting location to the US gas station. This field will help calculate how much gas is spent driving to and from the gas station."
+              autoFocus
             />
             <TextField
               id={INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM}
               required
               pattern="[0-9]{1,2}\.[0-9]{1}"
+              maxLength={4}
               title="Should be in the form of X.X or XX.X (numbers only)"
               label="Average L/100km"
               placeholder="9.1"
@@ -138,6 +141,7 @@ const HomeHero = () => {
               id={INPUT_FIELD_IDS.USD_TO_CAD_RATE}
               required
               pattern="[0-9]{1}\.[0-9]{1,2}"
+              maxLength={4}
               title="Should be in the form of X.X or X.XX (numbers only)"
               label="USD to CAD Rate"
               placeholder="1.34"
@@ -147,6 +151,7 @@ const HomeHero = () => {
               id={INPUT_FIELD_IDS.LITRES}
               required
               pattern="[0-9]{2,3}"
+              maxLength={3}
               title="Should be a whole number that's 2 or 3 digits long (numbers only)"
               label="Litres"
               placeholder="175"
@@ -156,6 +161,7 @@ const HomeHero = () => {
               id={INPUT_FIELD_IDS.CAD_LITRE_RATE}
               required
               pattern="[0-9]{1}\.[0-9]{1,2}"
+              maxLength={4}
               title="Should be in the form of X.X or X.XX (numbers only)"
               label="CAD $/Litre"
               placeholder="1.93"
@@ -164,6 +170,7 @@ const HomeHero = () => {
               id={INPUT_FIELD_IDS.USD_GALLON_RATE}
               required
               pattern="[0-9]{1}\.[0-9]{1,2}"
+              maxLength={4}
               title="Should be in the form of X.X or X.XX (numbers only)"
               label="USD $/Gallon"
               placeholder="4.39"

@@ -16,6 +16,9 @@ type Props = {
   tooltipText?: string;
   pattern?: string;
   title: string;
+  maxLength?: number;
+  autoFocus?: boolean;
+  autoComplete?: 'on' | 'off';
 };
 
 const TextField: React.FC<Props> = ({
@@ -26,6 +29,9 @@ const TextField: React.FC<Props> = ({
   tooltipText = '',
   pattern = '',
   title,
+  maxLength = 100,
+  autoFocus = false,
+  autoComplete = 'on',
 }) => {
   const isTablet = useMediaQuery(SCREENS.MD);
   return (
@@ -49,6 +55,9 @@ const TextField: React.FC<Props> = ({
         id={id}
         required={required}
         pattern={pattern}
+        maxLength={maxLength}
+        autoFocus={autoFocus}
+        autoComplete={autoComplete}
       />
     </div>
   );
