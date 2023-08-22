@@ -135,7 +135,7 @@ const HomeHero = () => {
               title="Should be in the form of X.X or XX.X (numbers only)"
               label="Average L/100km"
               placeholder="9.1"
-              tooltipText="The amount of litres your vehicle uses to travel 100km. This should be on your dashboard of your car."
+              tooltipText="The amount of litres your vehicle uses to travel 100km. This should be on your vehicle's dashboard."
             />
             <TextField
               id={INPUT_FIELD_IDS.USD_TO_CAD_RATE}
@@ -145,7 +145,6 @@ const HomeHero = () => {
               title="Should be in the form of X.X or X.XX (numbers only)"
               label="USD to CAD Rate"
               placeholder="1.34"
-              tooltipText="You can also add your foreign exchange fees if you're using a Canadian credit card. Example, your foreign exchange rate is an extra 2% and the USD to CAD rate is 1.30, then you can put 1.32 as the rate."
             />
             <TextField
               id={INPUT_FIELD_IDS.LITRES}
@@ -155,7 +154,7 @@ const HomeHero = () => {
               title="Should be a whole number that's 2 or 3 digits long (numbers only)"
               label="Litres"
               placeholder="175"
-              tooltipText="This should include the amount of litres filling up your vehicle AND the jerry cans. The more litres you fill in one trip, the more money you'll save."
+              tooltipText="The amount of litres filling up your vehicle and the jerry cans."
             />
             <TextField
               id={INPUT_FIELD_IDS.CAD_LITRE_RATE}
