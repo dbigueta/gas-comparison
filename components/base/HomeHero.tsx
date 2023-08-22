@@ -124,7 +124,7 @@ const HomeHero = () => {
               title="Should be a whole number that's at most 3 digits long (numbers only)"
               label="Distance (km) to US"
               placeholder="50"
-              tooltipText="One way distance from your starting location to the US gas station. This field will help calculate how much gas is spent driving to and from the gas station."
+              tooltipText="One way distance from your starting location to the US gas station."
               autoFocus
             />
             <TextField

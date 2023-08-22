@@ -46,6 +46,8 @@ const TextField: React.FC<Props> = ({
           </Tippy>
         )}
       </label>
+
+      {/* Trim input value so no white space */}
       <input
         className="text-xs h-12 w-full rounded-xl text-neutral-400 !transition-[padding,height,box-shadow,font-size] !ease-linear focus:outline-none focus:shadow-[0_0_0_3px_#FFCB77] pl-4 pr-8 py-2 md:pl-5 md:pr-10 md:py-3 md:h-14"
         placeholder={placeholder}
