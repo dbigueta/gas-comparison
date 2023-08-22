@@ -111,9 +111,9 @@ const HomeHero = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 transition-[padding]">
+    <section className="py-16 transition-[padding]">
       <div className="wrapper">
-        <h1 className="text-xl text-center font-bold mb-12 text-neutral-100">Gas Comparison</h1>
+        <h1 className="text-xl text-center font-bold mb-8 md:mb-12 text-neutral-100">Gas Comparison</h1>
         <form ref={formRef} onSubmit={handleSubmit} className="max-w-[31.25rem] mx-auto md:max-w-[51.5rem]">
           <fieldset className="grid gap-6 mb-8 md:mb-12 md:grid-cols-2 md:gap-y-8">
             <TextField
