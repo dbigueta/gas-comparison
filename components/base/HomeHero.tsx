@@ -138,7 +138,7 @@ const HomeHero = () => {
               pattern="^\d{1,3}$"
               maxLength={3}
               title="Should be a whole number that's at most 3 digits long"
-              label="CAD Distance (km)"
+              label="CAN Distance (km)"
               placeholder="13"
               tooltipText="One way distance from your starting location to the Canadian gas station."
               autoFocus
