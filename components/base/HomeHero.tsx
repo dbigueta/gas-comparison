@@ -110,10 +110,9 @@ const HomeHero = () => {
     const data = getValues(inputFields);
 
     setShowResult(true);
+    getExchangeRate().then((data) => setCadExchangeRate(data.conversion_rates.CAD));
     setResult(calculateComparison(data));
   };
-
-  getExchangeRate().then((data) => setCadExchangeRate(data.conversion_rates.CAD));
 
   return (
     <section className="py-16 transition-[padding] height_lg:py-32">
