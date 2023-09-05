@@ -119,9 +119,9 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.DISTANCE}
               required
-              pattern="[0-9]{1,3}"
+              pattern="^\d{1,3}$"
               maxLength={3}
-              title="Should be a whole number that's at most 3 digits long (numbers only)"
+              title="Should be a whole number that's at most 3 digits long"
               label="Distance (km) to US"
               placeholder="50"
               tooltipText="One way distance from your starting location to the US gas station."
@@ -130,9 +130,9 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM}
               required
-              pattern="[0-9]{1,2}\.[0-9]{1}"
+              pattern="^\d+(\.\d+)?$"
               maxLength={4}
-              title="Should be in the form of X.X or XX.X (numbers only)"
+              title="The gas consumption rate, can be found on your vehicles dashboard"
               label="Average L/100km"
               placeholder="9.1"
               tooltipText="The amount of litres your vehicle uses to travel 100km. This should be on your vehicle's dashboard."
@@ -140,18 +140,18 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.USD_TO_CAD_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{1,2}"
+              pattern="^\d+(\.\d{1,2})?$"
               maxLength={4}
-              title="Should be in the form of X.X or X.XX (numbers only)"
+              title="The USD to CAD exchange rate"
               label="USD to CAD Rate"
               placeholder="1.34"
             />
             <TextField
               id={INPUT_FIELD_IDS.LITRES}
               required
-              pattern="[0-9]{2,3}"
+              pattern="^\d{1,3}$"
               maxLength={3}
-              title="Should be a whole number that's 2 or 3 digits long (numbers only)"
+              title="Should be a whole number that's 1 to 3 digits long"
               label="Litres"
               placeholder="175"
               tooltipText="The amount of litres filling up your vehicle and the jerry cans."
@@ -159,18 +159,18 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.CAD_LITRE_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{1,2}"
+              pattern="^\d+(\.\d{1,2})?$"
               maxLength={4}
-              title="Should be in the form of X.X or X.XX (numbers only)"
+              title="The gas price of the Canadian gas station"
               label="CAD $/Litre"
               placeholder="1.93"
             />
             <TextField
               id={INPUT_FIELD_IDS.USD_GALLON_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{1,2}"
+              pattern="^\d+(\.\d{1,2})?$"
               maxLength={4}
-              title="Should be in the form of X.X or X.XX (numbers only)"
+              title="The gas price of the American gas station"
               label="USD $/Gallon"
               placeholder="4.39"
             />
