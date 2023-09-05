@@ -26,6 +26,7 @@ const config: Config = {
       lg: APP_STYLES.SCREENS.LG,
       xl: APP_STYLES.SCREENS.XL,
       xxl: APP_STYLES.SCREENS.XXL,
+      height_lg: { 'raw': `(min-height: ${APP_STYLES.SCREENS.LG}) and (min-width: ${APP_STYLES.SCREENS.MD})`}
     },
     fontSize: {
       'desktop-xl': '4rem', // 64px

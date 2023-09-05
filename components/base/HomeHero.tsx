@@ -111,7 +111,7 @@ const HomeHero = () => {
   };
 
   return (
-    <section className="py-16 transition-[padding]">
+    <section className="py-16 transition-[padding] height_lg:py-32">
       <div className="wrapper">
         <h1 className="text-xl text-center font-bold mb-8 md:mb-12 text-neutral-100">Gas Comparison</h1>
         <form ref={formRef} onSubmit={handleSubmit} className="max-w-[31.25rem] mx-auto md:max-w-[51.5rem]">
