@@ -8,7 +8,8 @@ export const SCREENS = {
 
 // Input Field IDs
 export const INPUT_FIELD_IDS = {
-  DISTANCE: 'distance',
+  US_DISTANCE: 'us_distance',
+  CAN_DISTANCE: 'can_distance',
   AVERAGE_LITRE_PER_100_KM: 'l/100km',
   USD_TO_CAD_RATE: 'usd_to_cad_rate',
   LITRES: 'litres',

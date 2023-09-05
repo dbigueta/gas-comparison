@@ -4,20 +4,22 @@ import { useState, useRef } from 'react';
 import TextField from '@/components/partials/TextField';
 
 import { INPUT_FIELD_IDS, LITRES_PER_GALLON, HUNDRED_KM, TWO_WAY_DISTANCE } from '@/src/constants';
-import Icon from '../partials/icon/Icon';
+import Icon from '@/components/partials/icon/Icon';
+import getExchangeRate from '@/src/libs/getExchangeRate';
 
 type Values = {
-  distance: number;
+  usDistance: number;
+  canDistance: number;
   litresPer100km: number;
+  litres: number;
   cadPerLitre: number;
   usdPerGallon: number;
-  usdCadExchangeRate: number;
-  litres: number;
 };
 
 const HomeHero = () => {
   const [result, setResult] = useState(0);
   const [showResult, setShowResult] = useState(false);
+  const [cadExchangeRate, setCadExchangeRate] = useState(0);
 
   const formRef = useRef<HTMLFormElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -35,18 +37,19 @@ const HomeHero = () => {
   };
 
   const calculateComparison = ({
-    distance,
+    usDistance,
+    canDistance,
     litresPer100km,
+    litres,
     cadPerLitre,
     usdPerGallon,
-    usdCadExchangeRate,
-    litres,
   }: Values) => {
     const usdPerLitre = usdPerGallon / LITRES_PER_GALLON;
-    const cadPerLitreAfterExchangeRate = usdPerLitre * usdCadExchangeRate;
-    const litresSpentTravelling = litresSpentDriving(distance, litresPer100km);
-    const totalSpentCanadaRate = totalSpent(cadPerLitre, litres);
-    const totalSpentUsRate = totalSpent(cadPerLitreAfterExchangeRate, litres + litresSpentTravelling);
+    const cadPerLitreAfterExchangeRate = usdPerLitre * cadExchangeRate;
+    const litresSpentTravellingUS = litresSpentDriving(usDistance, litresPer100km);
+    const litresSpentTravellingCAN = litresSpentDriving(canDistance, litresPer100km);
+    const totalSpentCanadaRate = totalSpent(cadPerLitre, litres + litresSpentTravellingCAN);
+    const totalSpentUsRate = totalSpent(cadPerLitreAfterExchangeRate, litres + litresSpentTravellingUS);
     const difference = totalSpentCanadaRate - totalSpentUsRate;
     const roundedDifference = parseFloat(difference.toFixed(2));
 
@@ -55,9 +58,9 @@ const HomeHero = () => {
 
   const getValues = (values: Array<Element>) => {
     const data = {
-      distance: 0,
+      usDistance: 0,
+      canDistance: 0,
       litresPer100km: 0,
-      usdCadExchangeRate: 0,
       litres: 0,
       cadPerLitre: 0,
       usdPerGallon: 0,
@@ -66,14 +69,14 @@ const HomeHero = () => {
     for (let value of values) {
       const numberValue = parseFloat((value as HTMLInputElement).value);
       switch (value.id) {
-        case INPUT_FIELD_IDS.DISTANCE:
-          data.distance = numberValue;
+        case INPUT_FIELD_IDS.US_DISTANCE:
+          data.usDistance = numberValue;
+          break;
+        case INPUT_FIELD_IDS.CAN_DISTANCE:
+          data.canDistance = numberValue;
           break;
         case INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM:
           data.litresPer100km = numberValue;
-          break;
-        case INPUT_FIELD_IDS.USD_TO_CAD_RATE:
-          data.usdCadExchangeRate = numberValue;
           break;
         case INPUT_FIELD_IDS.LITRES:
           data.litres = numberValue;
@@ -110,21 +113,34 @@ const HomeHero = () => {
     setResult(calculateComparison(data));
   };
 
+  getExchangeRate().then((data) => setCadExchangeRate(data.conversion_rates.CAD));
+
   return (
-    <section className="py-16 transition-[padding]">
+    <section className="py-16 transition-[padding] height_lg:py-32">
       <div className="wrapper">
         <h1 className="text-xl text-center font-bold mb-8 md:mb-12 text-neutral-100">Gas Comparison</h1>
         <form ref={formRef} onSubmit={handleSubmit} className="max-w-[31.25rem] mx-auto md:max-w-[51.5rem]">
           <fieldset className="grid gap-6 mb-8 md:mb-12 md:grid-cols-2 md:gap-y-8">
             <TextField
-              id={INPUT_FIELD_IDS.DISTANCE}
+              id={INPUT_FIELD_IDS.US_DISTANCE}
               required
               pattern="^\d{1,3}$"
               maxLength={3}
               title="Should be a whole number that's at most 3 digits long"
-              label="Distance (km) to US"
+              label="US Distance (km)"
               placeholder="50"
               tooltipText="One way distance from your starting location to the US gas station."
+              autoFocus
+            />
+            <TextField
+              id={INPUT_FIELD_IDS.CAN_DISTANCE}
+              required
+              pattern="^\d{1,3}$"
+              maxLength={3}
+              title="Should be a whole number that's at most 3 digits long"
+              label="CAD Distance (km)"
+              placeholder="13"
+              tooltipText="One way distance from your starting location to the Canadian gas station."
               autoFocus
             />
             <TextField
@@ -136,15 +152,6 @@ const HomeHero = () => {
               label="Average L/100km"
               placeholder="9.1"
               tooltipText="The amount of litres your vehicle uses to travel 100km. This should be on your vehicle's dashboard."
-            />
-            <TextField
-              id={INPUT_FIELD_IDS.USD_TO_CAD_RATE}
-              required
-              pattern="^\d+(\.\d{1,2})?$"
-              maxLength={4}
-              title="The USD to CAD exchange rate"
-              label="USD to CAD Rate"
-              placeholder="1.34"
             />
             <TextField
               id={INPUT_FIELD_IDS.LITRES}

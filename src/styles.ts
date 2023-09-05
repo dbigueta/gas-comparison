@@ -15,7 +15,7 @@ const APP_STYLES = {
     LG: '62em', // 992px
     XL: '75em', // 1200px
     XXL: '90em', // 1440px
-  },
+    },
   FONT_FAMILY: {
     PRIMARY: 'var(--font-primary)',
     SECONDARY: 'var(--font-secondary)',
