@@ -109,9 +109,10 @@ const HomeHero = () => {
 
     const data = getValues(inputFields);
 
-    setShowResult(true);
+    // Encapsulate next line into a hook
     getExchangeRate().then((data) => setCadExchangeRate(data.conversion_rates.CAD));
     setResult(calculateComparison(data));
+    setShowResult(true);
   };
 
   return (
