@@ -119,7 +119,7 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.DISTANCE}
               required
-              pattern="[0-9]{1,3}"
+              pattern="^\d{1,3}$"
               maxLength={3}
               title="Should be a whole number that's at most 3 digits long (numbers only)"
               label="Distance (km) to US"
@@ -130,7 +130,7 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM}
               required
-              pattern="[0-9]{1,2}\.[0-9]{1}"
+              pattern="^\d+(\.\d+)?$"
               maxLength={4}
               title="Should be in the form of X.X or XX.X (numbers only)"
               label="Average L/100km"
@@ -140,7 +140,7 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.USD_TO_CAD_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{1,2}"
+              pattern="^\d+(\.\d{1,2})?$"
               maxLength={4}
               title="Should be in the form of X.X or X.XX (numbers only)"
               label="USD to CAD Rate"
@@ -149,7 +149,7 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.LITRES}
               required
-              pattern="[0-9]{2,3}"
+              pattern="^\d{1,3}$"
               maxLength={3}
               title="Should be a whole number that's 2 or 3 digits long (numbers only)"
               label="Litres"
@@ -159,7 +159,7 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.CAD_LITRE_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{1,2}"
+              pattern="^\d+(\.\d{1,2})?$"
               maxLength={4}
               title="Should be in the form of X.X or X.XX (numbers only)"
               label="CAD $/Litre"
@@ -168,7 +168,7 @@ const HomeHero = () => {
             <TextField
               id={INPUT_FIELD_IDS.USD_GALLON_RATE}
               required
-              pattern="[0-9]{1}\.[0-9]{1,2}"
+              pattern="^\d+(\.\d{1,2})?$"
               maxLength={4}
               title="Should be in the form of X.X or X.XX (numbers only)"
               label="USD $/Gallon"
