@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import TextField from '@/components/partials/TextField';
 
 import { INPUT_FIELD_IDS, LITRES_PER_GALLON, HUNDRED_KM, TWO_WAY_DISTANCE } from '@/src/constants';
+import TextField from '@/components/partials/TextField';
 import Icon from '@/components/partials/icon/Icon';
-import getExchangeRate from '@/src/libs/getExchangeRate';
+import useExchangeRate from '@/src/hooks/useExchangeRate';
 
 type Values = {
   usDistance: number;
@@ -19,7 +19,9 @@ type Values = {
 const HomeHero = () => {
   const [result, setResult] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  const [cadExchangeRate, setCadExchangeRate] = useState(0);
+
+  const exchangeRate = useExchangeRate();
+  const cadExchangeRate = exchangeRate?.conversion_rates?.CAD || 0;
 
   const formRef = useRef<HTMLFormElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -109,8 +111,6 @@ const HomeHero = () => {
 
     const data = getValues(inputFields);
 
-    // Encapsulate next line into a hook
-    getExchangeRate().then((data) => setCadExchangeRate(data.conversion_rates.CAD));
     setResult(calculateComparison(data));
     setShowResult(true);
   };
