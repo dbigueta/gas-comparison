@@ -7,8 +7,9 @@ import 'tippy.js/dist/tippy.css';
 import useMediaQuery from '@/src/hooks/useMediaQuery';
 import { SCREENS } from '@/src/constants';
 import Icon from './icon/Icon';
+import { FormValues } from '@/src/types/forms';
 
-type Props = {
+interface TextFieldProps {
   id: string;
   required?: boolean;
   label: string;
@@ -16,12 +17,16 @@ type Props = {
   tooltipText?: string;
   pattern?: string;
   title: string;
-  maxLength?: number;
+  max?: number;
+  min?: number;
+  step?: number;
   autoFocus?: boolean;
   autoComplete?: 'on' | 'off';
-};
+  state: FormValues;
+  setState?: (e: any) => void;
+}
 
-const TextField: React.FC<Props> = ({
+const TextField: React.FC<TextFieldProps> = ({
   id,
   required = false,
   label,
@@ -29,13 +34,17 @@ const TextField: React.FC<Props> = ({
   tooltipText = '',
   pattern = '',
   title,
-  maxLength = 100,
+  max = 999,
+  min = 1,
+  step = 1,
   autoFocus = false,
   autoComplete = 'on',
+  state,
+  setState,
 }) => {
   const isTablet = useMediaQuery(SCREENS.MD);
   return (
-    <div>
+    <div className="text-field">
       <label htmlFor={id} className="flex items-center gap-2 mb-2 w-fit">
         <p className="text-sm text-neutral-100">{label}</p>
         {tooltipText !== '' && (
@@ -49,17 +58,22 @@ const TextField: React.FC<Props> = ({
 
       {/* Trim input value so no white space */}
       <input
-        className="text-xs h-12 w-full rounded-xl text-neutral-400 !transition-[padding,height,box-shadow,font-size] !ease-linear focus:outline-none focus:shadow-[0_0_0_3px_#FFCB77] pl-4 pr-8 py-2 md:pl-5 md:pr-10 md:py-3 md:h-14"
+        className="text-input text-xs h-12 w-full rounded-xl text-neutral-400 !transition-[padding,height,box-shadow,font-size] !ease-linear focus:outline-none focus:shadow-[0_0_0_3px_#FFCB77] pl-4 pr-8 py-2 md:pl-5 md:pr-10 md:py-3 md:h-14"
         placeholder={placeholder}
-        type="text"
+        type="number"
         name={id}
         title={title}
         id={id}
+        inputMode="numeric"
         required={required}
         pattern={pattern}
-        maxLength={maxLength}
+        max={max}
+        min={min}
+        step={step}
         autoFocus={autoFocus}
         autoComplete={autoComplete}
+        value={state == null || state[id as keyof FormValues] === 0 ? '' : state[id as keyof FormValues]}
+        onChange={setState}
       />
     </div>
   );

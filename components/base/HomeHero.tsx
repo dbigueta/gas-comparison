@@ -1,27 +1,34 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-import { INPUT_FIELD_IDS, LITRES_PER_GALLON, HUNDRED_KM, TWO_WAY_DISTANCE } from '@/src/constants';
+import {
+  INPUT_FIELD_IDS,
+  INPUT_FIELDS_PATTERNS,
+  LITRES_PER_GALLON,
+  HUNDRED_KM,
+  TWO_WAY_DISTANCE,
+  DEFAULT_USD_TO_CAD_RATE,
+} from '@/src/constants';
 import TextField from '@/components/partials/TextField';
 import Icon from '@/components/partials/icon/Icon';
 import useExchangeRate from '@/src/hooks/useExchangeRate';
+import { FormValues } from '@/src/types/forms';
 
-type Values = {
-  usDistance: number;
-  canDistance: number;
-  litresPer100km: number;
-  litres: number;
-  cadPerLitre: number;
-  usdPerGallon: number;
-};
+interface HomeHeroProps {
+  initialState: FormValues;
+}
 
-const HomeHero = () => {
+const HomeHero: React.FC<HomeHeroProps> = ({ initialState }) => {
   const [result, setResult] = useState(0);
   const [showResult, setShowResult] = useState(false);
+  const [form, setForm] = useState(initialState);
+
+  const params = new URLSearchParams(form as any);
+  const paramsString = params.toString();
 
   const exchangeRate = useExchangeRate();
-  const cadExchangeRate = exchangeRate?.conversion_rates?.CAD || 0;
+  const cadExchangeRate = exchangeRate?.conversion_rates?.CAD || DEFAULT_USD_TO_CAD_RATE;
 
   const formRef = useRef<HTMLFormElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -31,7 +38,7 @@ const HomeHero = () => {
   };
 
   const litresSpentDriving = (distance: number, litresPer100km: number) => {
-    // Multiply by 2 because distance is only towards gas station. Need to include gas coming back from gas station as well.
+    // Multiply by 2 because distance is only one way. Need to include gas coming back as well.
     const totalDistance = distance * TWO_WAY_DISTANCE;
     const litresSpent = (totalDistance * litresPer100km) / HUNDRED_KM;
 
@@ -45,7 +52,7 @@ const HomeHero = () => {
     litres,
     cadPerLitre,
     usdPerGallon,
-  }: Values) => {
+  }: FormValues) => {
     const usdPerLitre = usdPerGallon / LITRES_PER_GALLON;
     const cadPerLitreAfterExchangeRate = usdPerLitre * cadExchangeRate;
     const litresSpentTravellingUS = litresSpentDriving(usDistance, litresPer100km);
@@ -54,66 +61,105 @@ const HomeHero = () => {
     const totalSpentUsRate = totalSpent(cadPerLitreAfterExchangeRate, litres + litresSpentTravellingUS);
     const difference = totalSpentCanadaRate - totalSpentUsRate;
     const roundedDifference = parseFloat(difference.toFixed(2));
-
     return roundedDifference;
-  };
-
-  const getValues = (values: Array<Element>) => {
-    const data = {
-      usDistance: 0,
-      canDistance: 0,
-      litresPer100km: 0,
-      litres: 0,
-      cadPerLitre: 0,
-      usdPerGallon: 0,
-    };
-
-    for (let value of values) {
-      const numberValue = parseFloat((value as HTMLInputElement).value);
-      switch (value.id) {
-        case INPUT_FIELD_IDS.US_DISTANCE:
-          data.usDistance = numberValue;
-          break;
-        case INPUT_FIELD_IDS.CAN_DISTANCE:
-          data.canDistance = numberValue;
-          break;
-        case INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM:
-          data.litresPer100km = numberValue;
-          break;
-        case INPUT_FIELD_IDS.LITRES:
-          data.litres = numberValue;
-          break;
-        case INPUT_FIELD_IDS.CAD_LITRE_RATE:
-          data.cadPerLitre = numberValue;
-          break;
-        case INPUT_FIELD_IDS.USD_GALLON_RATE:
-          data.usdPerGallon = numberValue;
-          break;
-        default:
-          data;
-      }
-    }
-
-    return data;
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    calculateResult();
+    window.history.replaceState(null, '', '?' + paramsString);
+  };
 
-    if (formRef.current === null) {
-      return;
-    }
-
-    const formElementsArray = Array.from(formRef.current.elements);
-    const inputFields = formElementsArray.filter((element: Element) => {
-      return element.nodeName === 'INPUT';
-    });
-
-    const data = getValues(inputFields);
-
-    setResult(calculateComparison(data));
+  const calculateResult = () => {
+    setResult(calculateComparison(form));
     setShowResult(true);
   };
+
+  const trimInput = (e: any, field: string) => {
+    const value = e.target.value.trim();
+    setForm({ ...form, [field]: value === '' ? 0 : parseFloat(value) });
+  };
+
+  const allAttributesAreNotZero = (obj: FormValues) => {
+    const values = Object.values(obj);
+    const allValuesAreZero = values.every((value) => value !== 0);
+    return allValuesAreZero;
+  };
+
+  useEffect(() => {
+    if (showResult === false && allAttributesAreNotZero(form)) {
+      calculateResult();
+    }
+  }, []);
+
+  const textFields = [
+    {
+      id: INPUT_FIELD_IDS.US_DISTANCE,
+      required: true,
+      pattern: INPUT_FIELDS_PATTERNS.US_DISTANCE,
+      max: 99,
+      title: "Should be a whole number that's at most 3 digits long",
+      label: 'US Distance (km)',
+      placeholder: '50',
+      tooltipText: 'One way distance from your starting location to the US gas station.',
+      autoFocus: true,
+    },
+    {
+      id: INPUT_FIELD_IDS.CAN_DISTANCE,
+      required: true,
+      pattern: INPUT_FIELDS_PATTERNS.CAN_DISTANCE,
+      max: 99,
+      title: "Should be a whole number that's at most 3 digits long",
+      label: 'CAN Distance (km)',
+      placeholder: '13',
+      tooltipText: 'One way distance from your starting location to the Canadian gas station.',
+      autoFocus: true,
+    },
+    {
+      id: INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM,
+      required: true,
+      pattern: INPUT_FIELDS_PATTERNS.AVERAGE_LITRE_PER_100_KM,
+      max: 20,
+      step: 0.1,
+      title: 'The gas consumption rate, can be found on your vehicles dashboard',
+      label: 'Average L/100km',
+      placeholder: '9.1',
+      tooltipText:
+        "The amount of litres your vehicle uses to travel 100km. This should be on your vehicle's dashboard.",
+    },
+    {
+      id: INPUT_FIELD_IDS.LITRES,
+      required: true,
+      pattern: INPUT_FIELDS_PATTERNS.LITRES,
+      title: "Should be a whole number that's 1 to 3 digits long",
+      label: 'Litres',
+      placeholder: '175',
+      tooltipText: 'The amount of litres filling up your vehicle and the jerry cans.',
+    },
+    {
+      id: INPUT_FIELD_IDS.CAD_LITRE_RATE,
+      required: true,
+      pattern: INPUT_FIELDS_PATTERNS.CAD_LITRE_RATE,
+      max: 5,
+      min: 0.01,
+      step: 0.01,
+      title: 'The gas price of the Canadian gas station',
+      label: 'CAD $/Litre',
+      placeholder: '1.93',
+    },
+    {
+      id: INPUT_FIELD_IDS.USD_GALLON_RATE,
+      required: true,
+      pattern: INPUT_FIELDS_PATTERNS.USD_GALLON_RATE,
+      max: 20,
+      min: 0.01,
+      step: 0.01,
+      maxLength: 4,
+      title: 'The gas price of the American gas station',
+      label: 'USD $/Gallon',
+      placeholder: '4.39',
+    },
+  ];
 
   return (
     <section className="py-16 transition-[padding] height_lg:py-32">
@@ -121,66 +167,27 @@ const HomeHero = () => {
         <h1 className="text-xl text-center font-bold mb-8 md:mb-12 text-neutral-100">Gas Comparison</h1>
         <form ref={formRef} onSubmit={handleSubmit} className="max-w-[31.25rem] mx-auto md:max-w-[51.5rem]">
           <fieldset className="grid gap-6 mb-8 md:mb-12 md:grid-cols-2 md:gap-y-8">
-            <TextField
-              id={INPUT_FIELD_IDS.US_DISTANCE}
-              required
-              pattern="^\d{1,3}$"
-              maxLength={3}
-              title="Should be a whole number that's at most 3 digits long"
-              label="US Distance (km)"
-              placeholder="50"
-              tooltipText="One way distance from your starting location to the US gas station."
-              autoFocus
-            />
-            <TextField
-              id={INPUT_FIELD_IDS.CAN_DISTANCE}
-              required
-              pattern="^\d{1,3}$"
-              maxLength={3}
-              title="Should be a whole number that's at most 3 digits long"
-              label="CAN Distance (km)"
-              placeholder="13"
-              tooltipText="One way distance from your starting location to the Canadian gas station."
-              autoFocus
-            />
-            <TextField
-              id={INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM}
-              required
-              pattern="^\d+(\.\d+)?$"
-              maxLength={4}
-              title="The gas consumption rate, can be found on your vehicles dashboard"
-              label="Average L/100km"
-              placeholder="9.1"
-              tooltipText="The amount of litres your vehicle uses to travel 100km. This should be on your vehicle's dashboard."
-            />
-            <TextField
-              id={INPUT_FIELD_IDS.LITRES}
-              required
-              pattern="^\d{1,3}$"
-              maxLength={3}
-              title="Should be a whole number that's 1 to 3 digits long"
-              label="Litres"
-              placeholder="175"
-              tooltipText="The amount of litres filling up your vehicle and the jerry cans."
-            />
-            <TextField
-              id={INPUT_FIELD_IDS.CAD_LITRE_RATE}
-              required
-              pattern="^\d+(\.\d{1,2})?$"
-              maxLength={4}
-              title="The gas price of the Canadian gas station"
-              label="CAD $/Litre"
-              placeholder="1.93"
-            />
-            <TextField
-              id={INPUT_FIELD_IDS.USD_GALLON_RATE}
-              required
-              pattern="^\d+(\.\d{1,2})?$"
-              maxLength={4}
-              title="The gas price of the American gas station"
-              label="USD $/Gallon"
-              placeholder="4.39"
-            />
+            {textFields.length > 0 &&
+              textFields.map((textField, i) => {
+                return (
+                  <TextField
+                    key={i}
+                    id={textField.id}
+                    required={textField.required}
+                    pattern={textField.pattern}
+                    max={textField.max}
+                    min={textField.min}
+                    step={textField.step}
+                    title={textField.title}
+                    label={textField.label}
+                    placeholder={textField.placeholder}
+                    tooltipText={textField.tooltipText}
+                    autoFocus={textField.autoFocus}
+                    state={form}
+                    setState={(e) => trimInput(e, textField.id)}
+                  />
+                );
+              })}
           </fieldset>
           <button
             ref={buttonRef}

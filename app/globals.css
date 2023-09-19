@@ -44,3 +44,15 @@ body {
 .text-field-tooltip .tippy-arrow {
   @apply text-neutral-400;
 }
+
+/* TextField Styles */
+
+/* Chromum & Safari */
+.text-field .text-input[type='number']::-webkit-inner-spin-button {
+  @apply hidden;
+}
+
+/* Firefox */
+.text-field .text-input[type='number'] {
+  -moz-appearance: textfield;
+}
