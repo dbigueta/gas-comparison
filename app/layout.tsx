@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} ${montserrat.variable} font-primary bg-primary-400 bg-none`}>
-        <main className="overflow-hidden min-h-main">{children}</main>
+      <body className={`${roboto.variable} ${montserrat.variable} font-primary bg-neutral-500 bg-none`}>
+        <main className="overflow-hidden min-h-main bg-primary-400">{children}</main>
         <Footer />
       </body>
     </html>
