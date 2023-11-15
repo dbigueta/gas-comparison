@@ -11,6 +11,37 @@ const montserrat = Montserrat({ subsets: ['latin'], weight: '400', variable: '--
 export const metadata: Metadata = {
   title: 'Gas Comparison',
   description: 'Comparing gas prices between Canadian and US gas stations',
+  authors: [{ name: 'Dexter Bigueta' }],
+  publisher: 'Dexter Bigueta',
+  creator: 'Dexter Bigueta',
+  generator: 'Next.js',
+  applicationName: 'Gas Comparison',
+  icons: {
+    icon: '/assets/favicon.ico',
+  },
+  openGraph: {
+    title: 'Gas Comparison',
+    description: 'Comparing gas prices between Canadian and US gas stations',
+    url: 'https://gas-comparison.netlify.app',
+    siteName: 'Gas Comparison',
+    images: [
+      {
+        url: '/assets/DexterProfile.png',
+        width: 500,
+        height: 500,
+        alt: 'Icon of Dexter',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Gas Comparison',
+    description: 'Comparing gas prices between Canadian and US gas stations',
+    creator: '@dexterbigueta',
+    images: ['/assets/DexterProfile.png'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
