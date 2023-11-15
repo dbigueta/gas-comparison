@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: 'https://gas-comparison.netlify.app/assets/DexterProfile.png',
-        width: 700,
-        height: 400,
+        width: 1200,
+        height: 630,
         alt: 'Icon of Dexter',
       },
     ],
