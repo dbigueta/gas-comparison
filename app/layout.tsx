@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   generator: 'Next.js',
   applicationName: 'Gas Comparison',
   icons: {
-    icon: '/assets/favicon.ico',
+    icon: 'https://gas-comparison.netlify.app/assets/favicon.ico',
   },
   openGraph: {
     title: 'Gas Comparison',
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     siteName: 'Gas Comparison',
     images: [
       {
-        url: '/assets/DexterProfile.png',
-        width: 500,
-        height: 500,
+        url: 'https://gas-comparison.netlify.app/assets/DexterProfile.png',
+        width: 1200,
+        height: 630,
         alt: 'Icon of Dexter',
       },
     ],
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: 'Gas Comparison',
     description: 'Comparing gas prices between Canadian and US gas stations',
     creator: '@dexterbigueta',
-    images: ['/assets/DexterProfile.png'],
+    images: ['https://gas-comparison.netlify.app/assets/DexterProfile.png'],
   },
 };
 
