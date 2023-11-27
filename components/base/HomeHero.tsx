@@ -113,7 +113,6 @@ const HomeHero: React.FC<HomeHeroProps> = ({ initialState }) => {
       label: 'CAN Distance (km)',
       placeholder: '13',
       tooltipText: 'One way distance from your starting location to the Canadian gas station.',
-      autoFocus: true,
     },
     {
       id: INPUT_FIELD_IDS.AVERAGE_LITRE_PER_100_KM,
