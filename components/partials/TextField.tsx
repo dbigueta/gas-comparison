@@ -64,7 +64,7 @@ const TextField: React.FC<TextFieldProps> = ({
         name={id}
         title={title}
         id={id}
-        inputMode="numeric"
+        inputMode={step === 1 ? 'numeric' : 'decimal'}
         required={required}
         pattern={pattern}
         max={max}
